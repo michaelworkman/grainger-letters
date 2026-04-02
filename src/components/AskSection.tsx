@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
+
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 const suggestions = [
   "Who was Pixie?",
@@ -13,6 +16,67 @@ const suggestions = [
   "How did Alice and Patrick meet?",
   "Tell me about 313 Jackson Avenue",
 ];
+
+async function streamChat({
+  messages,
+  onDelta,
+  onDone,
+  onError,
+}: {
+  messages: Message[];
+  onDelta: (text: string) => void;
+  onDone: () => void;
+  onError: (err: string) => void;
+}) {
+  const resp = await fetch(CHAT_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+    },
+    body: JSON.stringify({ messages }),
+  });
+
+  if (!resp.ok) {
+    const data = await resp.json().catch(() => null);
+    onError(data?.error || `Error ${resp.status}`);
+    return;
+  }
+
+  if (!resp.body) {
+    onError("No response body");
+    return;
+  }
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buf = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buf += decoder.decode(value, { stream: true });
+
+    let nl: number;
+    while ((nl = buf.indexOf("\n")) !== -1) {
+      let line = buf.slice(0, nl);
+      buf = buf.slice(nl + 1);
+      if (line.endsWith("\r")) line = line.slice(0, -1);
+      if (!line.startsWith("data: ")) continue;
+      const json = line.slice(6).trim();
+      if (json === "[DONE]") { onDone(); return; }
+      try {
+        const parsed = JSON.parse(json);
+        const content = parsed.choices?.[0]?.delta?.content;
+        if (content) onDelta(content);
+      } catch {
+        buf = line + "\n" + buf;
+        break;
+      }
+    }
+  }
+  onDone();
+}
 
 export function AskSection() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -27,22 +91,40 @@ export function AskSection() {
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
     const userMsg: Message = { role: "user", content: text.trim() };
-    setMessages((prev) => [...prev, userMsg]);
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
     setInput("");
     setLoading(true);
 
-    // Placeholder response until backend is connected
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content:
-            "Thank you for your question! The AI-powered Q&A feature requires a backend connection to work. Once Lovable Cloud is enabled with the Claude API key, I'll be able to answer questions about the Grainger family letters in detail.",
+    let assistantSoFar = "";
+
+    const upsert = (chunk: string) => {
+      assistantSoFar += chunk;
+      setMessages((prev) => {
+        const last = prev[prev.length - 1];
+        if (last?.role === "assistant") {
+          return prev.map((m, i) =>
+            i === prev.length - 1 ? { ...m, content: assistantSoFar } : m
+          );
+        }
+        return [...prev, { role: "assistant", content: assistantSoFar }];
+      });
+    };
+
+    try {
+      await streamChat({
+        messages: newMessages,
+        onDelta: upsert,
+        onDone: () => setLoading(false),
+        onError: (err) => {
+          upsert(`Sorry, something went wrong: ${err}`);
+          setLoading(false);
         },
-      ]);
+      });
+    } catch {
+      upsert("Sorry, I couldn't connect to the AI service. Please try again.");
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -55,7 +137,6 @@ export function AskSection() {
           Ask anything about the Grainger family, their letters, or the places they lived
         </p>
 
-        {/* Suggestions */}
         {messages.length === 0 && (
           <div className="flex flex-wrap gap-2 justify-center mb-8">
             {suggestions.map((s) => (
@@ -70,7 +151,6 @@ export function AskSection() {
           </div>
         )}
 
-        {/* Messages */}
         <div className="min-h-[200px] max-h-[400px] overflow-y-auto mb-4 space-y-4">
           {messages.map((msg, i) => (
             <div
@@ -84,11 +164,17 @@ export function AskSection() {
                     : "bg-card border border-warm-rule text-foreground"
                 }`}
               >
-                {msg.content}
+                {msg.role === "assistant" ? (
+                  <div className="prose prose-sm max-w-none">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                ) : (
+                  msg.content
+                )}
               </div>
             </div>
           ))}
-          {loading && (
+          {loading && messages[messages.length - 1]?.role !== "assistant" && (
             <div className="flex justify-start">
               <div className="bg-card border border-warm-rule px-4 py-3 rounded-lg text-sm text-mid-gray">
                 Thinking…
@@ -98,7 +184,6 @@ export function AskSection() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Input */}
         <div className="flex gap-2">
           <input
             type="text"
