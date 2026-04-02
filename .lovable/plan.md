@@ -1,50 +1,45 @@
 
 
-## The Grainger Family Letters — Build Plan
+## Reduce AI Hallucination — Ground the Chat in Full Letter Content
 
-### Design System Setup
-- Override Tailwind theme with the editorial color palette (ink, cream, warm rule, amber accent, grays)
-- Import Google Fonts: Playfair Display (serif headings/letter text) and Plus Jakarta Sans (UI/body)
-- Set base styles: cream background, generous whitespace, max 680px content width for narrative text
-- Thin 2px amber decorative rule as a reusable accent element
+### Problem
+The current system prompt contains only a short summary of the Grainger family. The AI model has no access to the actual letter text, so it fabricates details that sound plausible but are inaccurate.
 
-### Navigation & Hero Header
-- Clean horizontal nav with four sections: The Story, The Letters, The Places, Ask a Question
-- Hero: large Playfair Display title "The Grainger family letters", subtitle "Lexington, Virginia · 1963–1999", short description, amber rule below
-- Mobile-responsive nav (hamburger or minimal collapse)
+### Solution
+Embed all 36 letter transcriptions directly into the system prompt so the AI can cite real content. Also strengthen the prompt instructions to discourage speculation.
 
-### Section 1: The Story
-- Longform narrative across 5 chapters (Roots, The Lexington Years, Alice in the World, The Workman Branch, The Final Letter)
-- Each chapter: number, title, body text in Playfair Display at ~15px with 1.85 line-height
-- Pull quotes in left-bordered amber-rule blockquotes
-- Smooth scroll between chapters, book-like reading experience
+### Implementation
 
-### Section 2: The Letters (Archive Browser)
-- Two-column layout: vertical timeline sidebar (left) + document pane (right)
-- Timeline: amber dot markers with connecting vertical line, year + location labels, filled amber dot for active selection
-- Letter display: bordered document frame with date/address header, Playfair Display body text
-- Space for scanned letter images alongside transcriptions (two-up on desktop, stacked on mobile)
-- All 36 letters loaded from data, selectable via timeline
-- Mobile: timeline collapses to horizontal scroll strip or dropdown
+**1. Update the edge function (`supabase/functions/chat/index.ts`)**
 
-### Section 3: The Places (Interactive Map)
-- Full-width Leaflet.js map with OpenStreetMap tiles (no API key needed)
-- Custom amber/ink markers for all 37 locations (no default red pins)
-- Click markers to see location name, period, and contextual note from the letters
-- Styled popup cards matching the editorial design
+- Import or inline all letter content (year, date, full transcription) into the system prompt as a reference corpus
+- The letters data is ~600 lines / ~30KB of text — well within context limits for `gemini-3-flash-preview`
+- Add stricter grounding instructions to the prompt:
+  - "Only answer based on the letter content provided below"
+  - "If the letters don't mention something, say you don't have that information"
+  - "Always cite the year/letter when referencing specific facts"
 
-### Section 4: Ask a Question (Claude Q&A)
-- Chat interface styled in the editorial aesthetic
-- Suggested question chips: "Who was Pixie?", "Tell me about Alice's humanitarian work", etc.
-- Conversation history maintained in session
-- **Note:** The Claude API call requires a backend proxy (Supabase Edge Function) to keep the API key secure — this will be set up as a follow-up once Supabase is connected
+**2. Prompt structure**
 
-### Photos Integration
-- Extract and place the uploaded letter photos into the project
-- Display scanned images in the letter browser alongside transcriptions
+```
+You are a historian specializing in the Grainger family letters...
 
-### SEO & Polish
-- Page title and meta description per the brief
-- Responsive design throughout — single-column layouts on mobile
-- Smooth transitions between sections
+RULES:
+- Only use facts from the letters below. Do not invent or assume details.
+- If information isn't in the letters, say so honestly.
+- Cite the year when referencing facts.
+
+=== LETTER ARCHIVE ===
+[1963 — November 25, 1963 — Lexington, Virginia]
+<full transcription>
+
+[1964 — December 1964 — 313 Jackson Avenue]
+<full transcription>
+...
+```
+
+### Technical notes
+- The letter content is already in `src/data/letters.ts` but edge functions can't import from `src/`. The content will be inlined directly in the edge function.
+- No database changes needed.
+- Redeploy the edge function after updating.
 
