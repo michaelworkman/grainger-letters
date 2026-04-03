@@ -85,8 +85,9 @@ export function AskSection() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (messages.length === 0) return;
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages.length]);
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
