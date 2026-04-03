@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Send } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
@@ -82,7 +82,6 @@ export function AskSection() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
@@ -147,11 +146,7 @@ export function AskSection() {
           </div>
         )}
 
-        <div
-          className={`overflow-y-auto space-y-4 ${
-            messages.length === 0 ? "min-h-0 mb-3" : "min-h-[200px] max-h-[400px] mb-4"
-          }`}
-        >
+        <div className={`space-y-4 ${messages.length === 0 ? "mb-3" : "mb-4"}`}>
           {messages.map((msg, i) => (
             <div
               key={i}
@@ -181,7 +176,6 @@ export function AskSection() {
               </div>
             </div>
           )}
-          <div ref={bottomRef} />
         </div>
 
         <div className="flex gap-2">
