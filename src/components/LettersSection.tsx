@@ -17,7 +17,6 @@ export function LettersSection() {
         <Accordion
           type="single"
           collapsible
-          defaultValue={letters[0]?.id}
           className="rounded border border-warm-rule bg-card px-6 sm:px-8"
         >
           {letters.map((letter) => {
