@@ -78,7 +78,7 @@
 }
 
 .prose-letter {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 15px;
   line-height: 1.85;
   color: hsl(var(--ink));

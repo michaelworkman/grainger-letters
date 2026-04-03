@@ -29,7 +29,7 @@ export function StorySection() {
             ))}
 
             <blockquote className="border-l-2 border-amber pl-6 my-10">
-              <p className="font-serif text-lg italic text-foreground/80 leading-relaxed">
+              <p className="font-sans text-lg italic text-foreground/80 leading-relaxed">
                 "{chapter.pullQuote}"
               </p>
               <cite className="block mt-2 text-sm font-sans text-mid-gray not-italic">

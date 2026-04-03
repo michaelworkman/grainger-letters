@@ -9,7 +9,7 @@ export function Hero() {
           Lexington, Virginia · 1963–1999
         </p>
         <div className="mt-6 w-16 h-0.5 bg-amber mx-auto" />
-        <p className="mt-8 text-foreground/80 font-serif text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
+        <p className="mt-8 text-foreground/80 font-sans text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
           Thirty-six years of Christmas letters from an extraordinary American family — 
           from the Shenandoah Valley to Rwanda, from a Navy retirement to a doctorate, 
           from three daughters' childhoods to their humanitarian work on four continents.
