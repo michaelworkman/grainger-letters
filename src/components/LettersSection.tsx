@@ -15,8 +15,7 @@ export function LettersSection() {
         </h2>
 
         <Accordion
-          type="single"
-          collapsible
+          type="multiple"
           className="rounded border border-warm-rule bg-card px-6 sm:px-8"
         >
           {letters.map((letter) => {
