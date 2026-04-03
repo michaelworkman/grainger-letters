@@ -2,8 +2,8 @@ export interface Chapter {
   number: string;
   title: string;
   content: string[];
-  pullQuote: string;
-  pullQuoteAttribution: string;
+  pullQuote?: string;
+  pullQuoteAttribution?: string;
 }
 
 export const chapters: Chapter[] = [
@@ -26,9 +26,7 @@ export const chapters: Chapter[] = [
       "Penny, whose given name was Jeanette, graduated from Madison College in 1965 and went south to teach music at Virginia Beach. She drove a new Chevrolet Monza and shared an apartment with another girl, which felt, in 1965, like genuine independence. Then she met Tom Adams, married him in the summer of 1966 in a wedding for which Pixie made the dress, and followed him into the Army. Their first posting was Fort Lee, Virginia, then Vietnam, then a series of moves that would eventually land them in Roanoke.",
       "Pixie's story is more complicated and more romantic. She was, by any measure, exceptional: Who's Who in American Colleges, Treasurer of Student Government, a math major who also spoke French, a seamstress who made Penny's wedding dress, her own wedding dress, and Alice's junior bridesmaid dress for good measure. She married Jim Workman on April 8, 1967, in Lexington, while he was in the Army in Germany. He flew home for the wedding and flew back. Pixie graduated from Mary Washington in June and flew to join him in Wurzburg. When Jim's Army service ended in the spring of 1968, they returned to the States and settled in Newport News, where Pixie taught Math and Jim coached and taught History.",
       "Alice, meanwhile, was growing up. She had graduated from guitar lessons to solo travel to Montreal by 1971. She would eventually attend Duke on an Angier B. Duke Scholarship, study at Oxford, backpack through France, spend a semester in Lahore on an HEW grant studying Urdu, and graduate in May 1979. She then began a second education entirely, in the world."
-    ],
-    pullQuote: "The house was always full.",
-    pullQuoteAttribution: "313 Jackson Avenue"
+    ]
   },
   {
     number: "03",
@@ -45,8 +43,8 @@ export const chapters: Chapter[] = [
     title: "Two Cousins Named Mike",
     content: [
       "On September 23, 1970, at Fort Dix, New Jersey, a baby was born to Penny and Tom Adams. His name was Michael, and he was announced to the world in the very first letter in this collection with Eleanor's characteristic warmth: \"A fine boy he is!\" An overnight train journey brought Penny's mother to greet him. This was Mike Adams, the first grandchild, who would grow up to study languages and computer science, attend Washington and Lee, and eventually consult in computers and electronics.",
-      "Two years later, in 1972, in Richmond, you arrived. Michael Workman, son of Pixie and Jim, the second grandson, the second Mike. Two cousins sharing a name across two branches of the family, which perhaps explains why Eleanor kept such careful track in her letters of which Mike was doing what. By the mid-1970s she was writing about \"Mike\" the Adams boy at W&L, and separately noting your own milestones as you grew up in Richmond.",
-      "By 1975, at three and a half years old, you visited your grandmother in High Point and announced upon arrival: \"Grandma, I'm delighted to be here.\" The comment made it into the Christmas letter, naturally. Your grandmother adored you and missed no opportunity to say so."
+      "Two years later, in 1972, in Richmond, another Mike arrived. Michael Workman, son of Pixie and Jim, the second grandson, the second Mike. Two cousins sharing a name across two branches of the family, which perhaps explains why Eleanor kept such careful track in her letters of which Mike was doing what. By the mid-1970s she was writing about \"Mike\" the Adams boy at W&L, and separately noting Mike Workman's own milestones as he grew up in Richmond.",
+      "By 1975, at 3½ years old, Mike Workman visited his grandmother in High Point and announced upon arrival: \"Grandma, I'm delighted to be here.\" The comment made it into the Christmas letter, naturally."
     ],
     pullQuote: "Mike (age 3.5) spent a week with us recently. His comment on arrival: 'Grandma, I'm delighted to be here.'",
     pullQuoteAttribution: "1975"
@@ -55,13 +53,11 @@ export const chapters: Chapter[] = [
     number: "05",
     title: "The Richmond Years and a Family Divides",
     content: [
-      "Through the mid-1970s, your parents were in Richmond, where Pixie taught math at a community college and worked mornings at a needlework shop, and Jim was a deacon at Ginter Park Presbyterian Church. Mike grew up in Richmond alongside his sister Sarah, who was a competitive swimmer and clarinet player and a strong student.",
+      "After moving to Kenmore Road in Richmond, Va., Pixie taught math at a community college and worked mornings at a needlework shop in Richmond, Va., and Jim was a deacon at Ginter Park Presbyterian Church. Mike grew up in Richmond alongside his sister Sarah, who was a competitive swimmer and clarinet player and a strong student.",
       "In November 1986, Jim moved away from Kenmore Road. The 1987 letter addresses it plainly and without bitterness: Eleanor was about to become a divorcee. Mike and Sarah visited Jim every other weekend. Their mother threw herself into work at Binswanger Glass in Richmond, drawn by the variety and the adult environment after years of teaching. The family kept moving forward.",
       "Grandmother Eleanor noted Mike's particular talents with consistent pride through these years. By the time he enrolled at the University of North Carolina at Chapel Hill in September 1990, she was clearly delighted. The detail was not lost on her that Chapel Hill was the institution where Inslee had earned his doctorate, where his own father had earned a master's degree, and where a cousin once removed named Bill Drummond had also studied. Four generations of the family at the same university.",
       "Mike graduated in May 1994 with a degree in Journalism, and Alice came from Switzerland with little Joseph to watch. Mike went on to work at a newspaper in Norfolk, which your grandmother reported with quiet satisfaction in her 1994 letter."
-    ],
-    pullQuote: "The family kept moving forward.",
-    pullQuoteAttribution: "Richmond years"
+    ]
   },
   {
     number: "06",
@@ -79,9 +75,7 @@ export const chapters: Chapter[] = [
     title: "Penny and Tom",
     content: [
       "While Alice was living history in Sudan and Rwanda and Croatia, Penny and Tom were building a steadier life, though not without their own adventures. Tom served in Vietnam in the late 1960s, met Penny in Hawaii on a break, and came home to a long Army career that took the family to Germany and back. Penny completed a master's degree as a reading specialist while raising her children. Mike and Mimi grew up with their parents moving post to post, landing eventually in Roanoke when Tom retired from the Army and joined the staff of the College of Health Sciences. Penny taught and gave piano lessons. Mike became a linguist and computer scientist. Mimi, described in the letters as a ballerina, sailed through school with good grades and many friends."
-    ],
-    pullQuote: "Penny taught and gave piano lessons.",
-    pullQuoteAttribution: "Roanoke years"
+    ]
   },
   {
     number: "08",

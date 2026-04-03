@@ -28,14 +28,18 @@ export function StorySection() {
               </p>
             ))}
 
-            <blockquote className="border-l-2 border-amber pl-6 my-10">
-              <p className="font-serif text-lg italic text-foreground/80 leading-relaxed">
-                "{chapter.pullQuote}"
-              </p>
-              <cite className="block mt-2 text-sm font-sans text-mid-gray not-italic">
-                — {chapter.pullQuoteAttribution}
-              </cite>
-            </blockquote>
+            {chapter.pullQuote && (
+              <blockquote className="border-l-2 border-amber pl-6 my-10">
+                <p className="font-serif text-lg italic text-foreground/80 leading-relaxed">
+                  "{chapter.pullQuote}"
+                </p>
+                {chapter.pullQuoteAttribution && (
+                  <cite className="block mt-2 text-sm font-sans text-mid-gray not-italic">
+                    — {chapter.pullQuoteAttribution}
+                  </cite>
+                )}
+              </blockquote>
+            )}
 
             {i < chapters.length - 1 && (
               <div className="w-8 h-0.5 bg-warm-rule mx-auto mt-16" />
