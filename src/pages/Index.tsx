@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { StorySection } from "@/components/StorySection";
@@ -13,10 +13,6 @@ const Index = () => {
   const lettersRef = useRef<HTMLDivElement>(null);
   const placesRef = useRef<HTMLDivElement>(null);
   const askRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, []);
 
   const scrollTo = useCallback((section: string) => {
     const refs: Record<string, React.RefObject<HTMLDivElement>> = {

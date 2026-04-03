@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Send } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
@@ -83,11 +83,6 @@ export function AskSection() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (messages.length === 0) return;
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length]);
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
