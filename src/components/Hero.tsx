@@ -6,13 +6,13 @@ export function Hero() {
           The Grainger family letters
         </h1>
         <p className="mt-4 text-mid-gray text-base sm:text-lg font-sans">
-          Lexington, Virginia · 1963–1999
+          1963–1999
         </p>
         <div className="mt-6 w-16 h-0.5 bg-amber mx-auto" />
         <p className="mt-8 text-foreground/80 font-sans text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
-          Thirty-six years of Christmas letters from an extraordinary American family — 
-          from the Shenandoah Valley to Rwanda, from a Navy retirement to a doctorate, 
-          from three daughters' childhoods to their humanitarian work on four continents.
+          Thirty-six years of Christmas letters from an extraordinary American family —
+          from the Shenandoah Valley to Rwanda, from a Navy retirement to a doctorate,
+          from three daughters' childhoods to humanitarian work on four continents.
         </p>
       </div>
     </section>

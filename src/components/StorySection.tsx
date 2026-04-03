@@ -12,7 +12,7 @@ export function StorySection() {
           <article key={chapter.number} className={i > 0 ? "mt-20" : ""}>
             <div className="mb-8">
               <span className="text-amber text-sm font-sans font-medium tracking-widest uppercase">
-                Chapter {chapter.number}
+                Chapter {Number(chapter.number)}
               </span>
               <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-foreground mt-2">
                 {chapter.title}

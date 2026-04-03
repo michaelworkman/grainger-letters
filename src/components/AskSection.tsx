@@ -138,7 +138,7 @@ export function AskSection() {
         </p>
 
         {messages.length === 0 && (
-          <div className="flex flex-wrap gap-2 justify-center mb-8">
+          <div className="flex flex-wrap gap-2 justify-center mb-5">
             {suggestions.map((s) => (
               <button
                 key={s}
@@ -151,7 +151,11 @@ export function AskSection() {
           </div>
         )}
 
-        <div className="min-h-[200px] max-h-[400px] overflow-y-auto mb-4 space-y-4">
+        <div
+          className={`overflow-y-auto space-y-4 ${
+            messages.length === 0 ? "min-h-0 mb-3" : "min-h-[200px] max-h-[400px] mb-4"
+          }`}
+        >
           {messages.map((msg, i) => (
             <div
               key={i}

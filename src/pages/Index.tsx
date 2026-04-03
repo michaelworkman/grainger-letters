@@ -60,7 +60,15 @@ const Index = () => {
 
       <footer className="py-12 text-center border-t border-warm-rule">
         <p className="text-sm font-sans text-subtle-gray">
-          Built with love by Mike Workman · The Grainger Family Letters, 1963–1999
+          Built with love by{" "}
+          <a
+            href="https://michaelwworkman.com"
+            target="_blank"
+            rel="noreferrer"
+            className="text-foreground transition-colors hover:text-amber"
+          >
+            Michael Workman
+          </a>
         </p>
       </footer>
     </div>

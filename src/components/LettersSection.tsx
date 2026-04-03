@@ -20,8 +20,15 @@ export function LettersSection() {
           defaultValue={letters[0]?.id}
           className="rounded border border-warm-rule bg-card px-6 sm:px-8"
         >
-          {letters.map((letter) => (
-            <AccordionItem key={letter.id} value={letter.id} className="border-warm-rule">
+          {letters.map((letter) => {
+            const scans = letter.photos?.length
+              ? letter.photos
+              : letter.photo
+                ? [letter.photo]
+                : [];
+
+            return (
+              <AccordionItem key={letter.id} value={letter.id} className="border-warm-rule">
               <AccordionTrigger className="gap-4 py-5 text-left hover:no-underline">
                 <div className="flex flex-1 flex-col gap-1 text-left">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -51,23 +58,32 @@ export function LettersSection() {
                     </blockquote>
                   )}
 
-                  {letter.photo && (
-                    <div className="mt-6 border border-warm-rule rounded overflow-hidden bg-background">
-                      <img
-                        src={letter.photo}
-                        alt={`Scanned letter from ${letter.date}`}
-                        className="w-full h-auto"
-                        loading="lazy"
-                      />
-                      <p className="px-4 py-2 text-xs font-sans text-subtle-gray">
-                        Original letter, {letter.date}
-                      </p>
+                  {scans.length > 0 && (
+                    <div className="mt-6 space-y-4">
+                      {scans.map((scan, index) => (
+                        <div
+                          key={scan}
+                          className="border border-warm-rule rounded overflow-hidden bg-background"
+                        >
+                          <img
+                            src={scan}
+                            alt={`Scanned letter from ${letter.date}${scans.length > 1 ? `, page ${index + 1}` : ""}`}
+                            className="w-full h-auto"
+                            loading="lazy"
+                          />
+                          <p className="px-4 py-2 text-xs font-sans text-subtle-gray">
+                            Original letter, {letter.date}
+                            {scans.length > 1 ? ` — page ${index + 1}` : ""}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
               </AccordionContent>
-            </AccordionItem>
-          ))}
+              </AccordionItem>
+            );
+          })}
         </Accordion>
       </div>
     </section>
