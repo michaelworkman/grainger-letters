@@ -2,6 +2,11 @@ export function Hero() {
   return (
     <section className="py-20 sm:py-32 px-4">
       <div className="max-w-2xl mx-auto text-center">
+        <img
+          src="/photos/house.png"
+          alt="Illustration of the Grainger family house"
+          className="w-[300px] max-w-full h-auto mx-auto mb-8"
+        />
         <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold text-foreground leading-tight tracking-tight">
           The Grainger family letters
         </h1>

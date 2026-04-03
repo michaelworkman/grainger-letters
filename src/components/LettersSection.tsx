@@ -25,6 +25,7 @@ export function LettersSection() {
               : letter.photo
                 ? [letter.photo]
                 : [];
+            const location = letter.address.split(", ").slice(-2).join(", ");
 
             return (
               <AccordionItem key={letter.id} value={letter.id} className="border-warm-rule">
@@ -36,7 +37,7 @@ export function LettersSection() {
                     </span>
                     <span className="text-sm font-sans text-mid-gray">{letter.date}</span>
                   </div>
-                  <p className="text-sm font-sans text-subtle-gray">{letter.address}</p>
+                  <p className="text-sm font-sans text-subtle-gray">{location}</p>
                   {letter.note && (
                     <p className="text-xs font-sans italic text-amber">{letter.note}</p>
                   )}
