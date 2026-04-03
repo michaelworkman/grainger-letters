@@ -51,7 +51,7 @@ export const chapters: Chapter[] = [
   },
   {
     number: "05",
-    title: "The Richmond Years and a Family Divides",
+    title: "The Workmans",
     content: [
       "After moving to Kenmore Road in Richmond, Va., Pixie taught math at a community college and worked mornings at a needlework shop in Richmond, Va., and Jim was a deacon at Ginter Park Presbyterian Church. Mike grew up in Richmond alongside his sister Sarah, who was a competitive swimmer and clarinet player and a strong student.",
       "In November 1986, Jim moved away from Kenmore Road. The 1987 letter addresses it plainly and without bitterness: Eleanor was about to become a divorcee. Mike and Sarah visited Jim every other weekend. Their mother threw herself into work at Binswanger Glass in Richmond, drawn by the variety and the adult environment after years of teaching. The family kept moving forward.",
