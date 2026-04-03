@@ -83,3 +83,28 @@
   line-height: 1.85;
   color: hsl(var(--ink));
 }
+
+.prose-answer {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: hsl(var(--ink));
+}
+
+.prose-answer p {
+  margin: 0;
+}
+
+.prose-answer p + p {
+  margin-top: 0.9rem;
+}
+
+.prose-answer ul,
+.prose-answer ol {
+  margin-top: 0.9rem;
+  padding-left: 1.25rem;
+}
+
+.prose-answer li + li {
+  margin-top: 0.35rem;
+}

@@ -165,7 +165,7 @@ export function AskSection() {
                 }`}
               >
                 {msg.role === "assistant" ? (
-                  <div className="prose prose-sm max-w-none">
+                  <div className="prose-answer">
                     <ReactMarkdown>{msg.content}</ReactMarkdown>
                   </div>
                 ) : (
