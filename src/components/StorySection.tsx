@@ -30,7 +30,7 @@ export function StorySection() {
 
             {chapter.pullQuote && (
               <blockquote className="border-l-2 border-amber pl-6 my-10">
-                <p className="font-quote text-[1.35rem] italic text-foreground/80 leading-[1.15] sm:text-[1.65rem]">
+                <p className="font-quote text-[1.35rem] text-foreground/80 leading-[1.15] sm:text-[1.65rem]">
                   "{chapter.pullQuote}"
                 </p>
                 {chapter.pullQuoteAttribution && (

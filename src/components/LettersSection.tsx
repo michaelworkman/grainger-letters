@@ -31,7 +31,7 @@ export function LettersSection() {
               <AccordionTrigger className="gap-4 py-5 text-left hover:no-underline">
                 <div className="flex flex-1 flex-col gap-1 text-left">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <span className="font-label text-lg font-bold text-foreground sm:text-xl">
+                    <span className="font-serif text-xl font-semibold text-foreground sm:text-[1.65rem]">
                       {letter.year}
                     </span>
                     <span className="font-label text-sm text-mid-gray">{letter.date}</span>
@@ -51,7 +51,7 @@ export function LettersSection() {
 
                   {letter.pullQuote && (
                     <blockquote className="border-l-2 border-amber pl-6 mt-8">
-                      <p className="font-quote text-[1.2rem] italic text-foreground/80 leading-[1.15] sm:text-[1.35rem]">
+                      <p className="font-quote text-[1.2rem] text-foreground/80 leading-[1.15] sm:text-[1.35rem]">
                         "{letter.pullQuote}"
                       </p>
                     </blockquote>
