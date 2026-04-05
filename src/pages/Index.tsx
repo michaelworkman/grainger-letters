@@ -34,6 +34,16 @@ const Index = () => {
         <Hero />
       </div>
 
+      <section className="px-4 pb-12">
+        <div className="max-w-[680px] mx-auto">
+          <img
+            src="/photos/inslee-eleanor-grainger.png"
+            alt="Eleanor and Inslee Grainger standing together outdoors"
+            className="w-full h-auto rounded-sm"
+          />
+        </div>
+      </section>
+
       <div className="w-full max-w-5xl mx-auto h-px bg-warm-rule" />
 
       <div ref={storyRef}>
@@ -59,7 +69,7 @@ const Index = () => {
       </div>
 
       <footer className="py-12 text-center border-t border-warm-rule">
-        <p className="text-sm font-sans text-subtle-gray">
+        <p className="text-sm font-label text-subtle-gray">
           Built with love by{" "}
           <a
             href="https://michaelwworkman.com"

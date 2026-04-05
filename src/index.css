@@ -77,6 +77,10 @@
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+.font-essay {
+  font-family: 'Lora', serif;
+}
+
 .font-label {
   font-family: 'Courier Prime', monospace;
 }
@@ -96,13 +100,13 @@
 
 .prose-essay {
   font-family: 'Lora', serif;
-  font-size: 1.0625rem;
+  font-size: 1.0325rem;
   line-height: 1.56;
   color: hsl(var(--ink));
 }
 
 .prose-answer {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Courier Prime', monospace;
   font-size: 0.875rem;
   line-height: 1.36;
   color: hsl(var(--ink));

@@ -22,7 +22,7 @@ export function Header({ activeSection, onNavigate }: HeaderProps) {
         <div className="flex items-center justify-between h-14">
           <button
             onClick={() => onNavigate("hero")}
-            className="font-serif text-lg font-semibold text-foreground tracking-tight"
+            className="font-serif text-2xl font-semibold text-foreground tracking-tight"
           >
             The Grainger Letters
           </button>
@@ -32,7 +32,7 @@ export function Header({ activeSection, onNavigate }: HeaderProps) {
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`font-label text-sm transition-colors ${
+                className={`font-label text-sm uppercase transition-colors ${
                   activeSection === item.id
                     ? "text-amber"
                     : "text-mid-gray hover:text-foreground"
@@ -60,7 +60,7 @@ export function Header({ activeSection, onNavigate }: HeaderProps) {
                   onNavigate(item.id);
                   setMobileOpen(false);
                 }}
-                className={`font-label text-sm text-left ${
+                className={`font-label text-sm uppercase text-left ${
                   activeSection === item.id
                     ? "text-amber"
                     : "text-mid-gray"

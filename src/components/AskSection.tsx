@@ -128,7 +128,7 @@ export function AskSection() {
         <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-4 text-center">
           Ask a Question
         </h2>
-        <p className="text-center text-mid-gray font-sans text-sm mb-8">
+        <p className="text-center text-mid-gray font-label text-sm mb-8">
           Ask anything about the Grainger family, their letters, or the places they lived
         </p>
 
@@ -138,7 +138,7 @@ export function AskSection() {
               <button
                 key={s}
                 onClick={() => sendMessage(s)}
-                className="px-3 py-1.5 rounded-full border border-warm-rule bg-card text-sm font-sans text-mid-gray hover:border-amber hover:text-foreground transition-colors"
+                className="px-3 py-1.5 rounded-full border border-warm-rule bg-card text-sm font-label text-mid-gray hover:border-amber hover:text-foreground transition-colors"
               >
                 {s}
               </button>
@@ -153,7 +153,7 @@ export function AskSection() {
               className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[85%] px-4 py-3 rounded-lg text-sm font-sans leading-relaxed ${
+                className={`max-w-[85%] px-4 py-3 rounded-lg text-sm font-label leading-relaxed ${
                   msg.role === "user"
                     ? "bg-amber text-primary-foreground"
                     : "bg-card border border-warm-rule text-foreground"
@@ -171,7 +171,7 @@ export function AskSection() {
           ))}
           {loading && messages[messages.length - 1]?.role !== "assistant" && (
             <div className="flex justify-start">
-              <div className="bg-card border border-warm-rule px-4 py-3 rounded-lg text-sm text-mid-gray">
+              <div className="bg-card border border-warm-rule px-4 py-3 rounded-lg text-sm font-label text-mid-gray">
                 Thinking…
               </div>
             </div>
@@ -185,7 +185,7 @@ export function AskSection() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
             placeholder="Ask about the Grainger family…"
-            className="flex-1 px-4 py-2.5 rounded border border-warm-rule bg-card text-sm font-sans text-foreground placeholder:text-subtle-gray focus:outline-none focus:border-amber"
+            className="flex-1 px-4 py-2.5 rounded border border-warm-rule bg-card text-sm font-label text-foreground placeholder:text-subtle-gray focus:outline-none focus:border-amber"
           />
           <button
             onClick={() => sendMessage(input)}

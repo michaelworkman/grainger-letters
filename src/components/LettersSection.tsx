@@ -30,11 +30,11 @@ export function LettersSection() {
               <AccordionItem key={letter.id} value={letter.id} className="border-warm-rule">
               <AccordionTrigger className="gap-4 py-5 text-left hover:no-underline">
                 <div className="flex flex-1 flex-col gap-1 text-left">
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                     <span className="font-serif text-xl font-semibold text-foreground sm:text-[1.65rem]">
                       {letter.year}
                     </span>
-                    <span className="font-label text-sm text-mid-gray">{letter.date}</span>
+                    <span className="font-label text-sm uppercase text-mid-gray">{letter.date}</span>
                   </div>
                   <p className="font-label text-sm text-subtle-gray">{location}</p>
                   {letter.note && (
@@ -45,17 +45,11 @@ export function LettersSection() {
 
               <AccordionContent className="pb-6">
                 <div className="border-t border-warm-rule pt-6">
-                  <div className="prose-letter whitespace-pre-line">
-                    {letter.content}
+                  <div className="max-w-[680px] mx-auto">
+                    <div className="prose-letter whitespace-pre-line">
+                      {letter.content}
+                    </div>
                   </div>
-
-                  {letter.pullQuote && (
-                    <blockquote className="border-l-2 border-amber pl-6 mt-8">
-                      <p className="font-quote text-[1.2rem] text-foreground/80 leading-[1.15] sm:text-[1.35rem]">
-                        "{letter.pullQuote}"
-                      </p>
-                    </blockquote>
-                  )}
 
                   {scans.length > 0 && (
                     <div className="mt-6 space-y-4">

@@ -52,7 +52,7 @@ export function PlacesSection() {
         <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-4 text-center">
           The Places
         </h2>
-        <p className="text-center text-mid-gray font-sans text-sm mb-8">
+        <p className="text-center text-mid-gray font-label text-sm mb-8">
           37 locations across four continents, mentioned in the letters
         </p>
         <div
