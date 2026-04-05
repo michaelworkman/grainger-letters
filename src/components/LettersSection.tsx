@@ -51,7 +51,7 @@ export function LettersSection() {
 
                   {letter.pullQuote && (
                     <blockquote className="border-l-2 border-amber pl-6 mt-8">
-                      <p className="font-quote text-base italic text-foreground/80">
+                      <p className="font-quote text-[1.2rem] italic text-foreground/80 leading-[1.15] sm:text-[1.35rem]">
                         "{letter.pullQuote}"
                       </p>
                     </blockquote>

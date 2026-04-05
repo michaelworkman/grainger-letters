@@ -83,26 +83,27 @@
 
 .font-quote {
   font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
 }
 
 .prose-letter {
   font-family: 'Courier Prime', monospace;
   font-size: 15px;
-  line-height: 1.85;
+  line-height: 1.48;
   color: hsl(var(--ink));
 }
 
 .prose-essay {
   font-family: 'Lora', serif;
   font-size: 1.0625rem;
-  line-height: 1.95;
+  line-height: 1.56;
   color: hsl(var(--ink));
 }
 
 .prose-answer {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.875rem;
-  line-height: 1.7;
+  line-height: 1.36;
   color: hsl(var(--ink));
 }
 
