@@ -10,7 +10,7 @@ export function LettersSection() {
   return (
     <section className="py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-12 text-center">
+        <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-foreground mb-12 text-center">
           The Letters
         </h2>
 

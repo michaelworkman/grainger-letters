@@ -1,11 +1,11 @@
 import { chapters } from "@/data/chapters";
-import { formatPullQuote } from "@/lib/smartenQuotes";
+import { formatPullQuote, smartenQuotes } from "@/lib/smartenQuotes";
 
 export function StorySection() {
   return (
     <section className="py-16 px-4">
       <div className="max-w-[680px] mx-auto">
-        <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-16 text-center">
+        <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-foreground mb-16 text-center">
           The Story
         </h2>
 
@@ -16,7 +16,7 @@ export function StorySection() {
                 Chapter {Number(chapter.number)}
               </span>
               <h3 className="font-serif text-[2rem] font-semibold text-foreground mt-2">
-                {chapter.title}
+                {smartenQuotes(chapter.title)}
               </h3>
             </div>
 
@@ -43,7 +43,7 @@ export function StorySection() {
             )}
 
             {i < chapters.length - 1 && (
-              <div className="w-16 h-0.5 bg-warm-rule mx-auto mt-16" />
+              <div className="w-32 h-0.5 bg-warm-rule mx-auto mt-16" />
             )}
           </article>
         ))}

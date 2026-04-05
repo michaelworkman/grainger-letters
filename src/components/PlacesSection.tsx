@@ -43,9 +43,9 @@ export function PlacesSection() {
       const marker = L.marker([place.lat, place.lng], { icon: amberIcon }).addTo(map);
       marker.bindPopup(
         `<div style="font-family:'Plus Jakarta Sans',sans-serif;max-width:220px;">
-          <strong style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;display:block;margin-bottom:4px;">${place.name}</strong>
+          <strong style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;display:block;margin-bottom:4px;">${place.name}</strong>
           <span style="font-family:'Courier Prime',monospace;font-size:11px;color:#5c5c5c;display:block;margin-bottom:6px;">${place.period}</span>
-          <p style="font-size:12px;line-height:1.5;color:#1a1a18;margin:0;">${place.note}</p>
+          <p style="font-family:'Lora',serif;font-size:12px;line-height:1.5;color:#1a1a18;margin:0;">${place.note}</p>
         </div>`,
         { maxWidth: 240 }
       );
@@ -71,7 +71,7 @@ export function PlacesSection() {
   return (
     <section className="py-16 px-4">
       <div className="max-w-5xl mx-auto">
-        <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-4 text-center">
+        <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-foreground mb-4 text-center">
           The Places
         </h2>
         <p className="text-center text-mid-gray font-label text-sm mb-8">

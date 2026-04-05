@@ -125,7 +125,7 @@ export function AskSection() {
   return (
     <section className="py-16 px-4">
       <div className="max-w-[680px] mx-auto">
-        <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-foreground mb-4 text-center">
+        <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-foreground mb-4 text-center">
           Ask a Question
         </h2>
         <p className="text-center text-mid-gray font-label text-sm mb-8">
