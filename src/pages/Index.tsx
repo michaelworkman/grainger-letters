@@ -37,9 +37,11 @@ const Index = () => {
       <section className="px-4 pb-12">
         <div className="max-w-[680px] mx-auto">
           <img
-            src="/photos/inslee-eleanor-grainger.png"
+            src="/photos/inslee-eleanor-grainger.jpg"
             alt="Eleanor and Inslee Grainger standing together outdoors"
             className="w-full h-auto rounded-sm"
+            loading="eager"
+            decoding="async"
           />
         </div>
       </section>
