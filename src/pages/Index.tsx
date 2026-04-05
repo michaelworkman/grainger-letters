@@ -46,8 +46,6 @@ const Index = () => {
         </div>
       </section>
 
-      <div className="w-full max-w-5xl mx-auto h-px bg-warm-rule" />
-
       <div ref={storyRef}>
         <StorySection />
       </div>
