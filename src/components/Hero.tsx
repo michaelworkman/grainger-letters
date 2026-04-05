@@ -10,7 +10,7 @@ export function Hero() {
         <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold text-foreground leading-tight tracking-tight">
           The Grainger family letters
         </h1>
-        <p className="mt-4 text-mid-gray text-base sm:text-lg font-sans">
+        <p className="mt-4 text-mid-gray text-base sm:text-lg font-label">
           1963–1999
         </p>
         <div className="mt-6 w-16 h-0.5 bg-amber mx-auto" />

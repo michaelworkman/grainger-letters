@@ -31,14 +31,14 @@ export function LettersSection() {
               <AccordionTrigger className="gap-4 py-5 text-left hover:no-underline">
                 <div className="flex flex-1 flex-col gap-1 text-left">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <span className="font-serif text-xl font-semibold text-foreground">
+                    <span className="font-label text-lg font-bold text-foreground sm:text-xl">
                       {letter.year}
                     </span>
-                    <span className="text-sm font-sans text-mid-gray">{letter.date}</span>
+                    <span className="font-label text-sm text-mid-gray">{letter.date}</span>
                   </div>
-                  <p className="text-sm font-sans text-subtle-gray">{location}</p>
+                  <p className="font-label text-sm text-subtle-gray">{location}</p>
                   {letter.note && (
-                    <p className="text-xs font-sans italic text-amber">{letter.note}</p>
+                    <p className="font-label text-xs italic text-amber">{letter.note}</p>
                   )}
                 </div>
               </AccordionTrigger>
@@ -51,7 +51,7 @@ export function LettersSection() {
 
                   {letter.pullQuote && (
                     <blockquote className="border-l-2 border-amber pl-6 mt-8">
-                      <p className="font-serif text-base italic text-foreground/80">
+                      <p className="font-quote text-base italic text-foreground/80">
                         "{letter.pullQuote}"
                       </p>
                     </blockquote>
@@ -70,7 +70,7 @@ export function LettersSection() {
                             className="w-full h-auto"
                             loading="lazy"
                           />
-                          <p className="px-4 py-2 text-xs font-sans text-subtle-gray">
+                          <p className="font-label px-4 py-2 text-xs text-subtle-gray">
                             Original letter, {letter.date}
                             {scans.length > 1 ? ` — page ${index + 1}` : ""}
                           </p>

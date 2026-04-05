@@ -30,8 +30,8 @@ export function PlacesSection() {
       const marker = L.marker([place.lat, place.lng], { icon: amberIcon }).addTo(map);
       marker.bindPopup(
         `<div style="font-family:'Plus Jakarta Sans',sans-serif;max-width:220px;">
-          <strong style="font-family:'Playfair Display',serif;font-size:14px;display:block;margin-bottom:4px;">${place.name}</strong>
-          <span style="font-size:11px;color:#5c5c5c;display:block;margin-bottom:6px;">${place.period}</span>
+          <strong style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;display:block;margin-bottom:4px;">${place.name}</strong>
+          <span style="font-family:'Courier Prime',monospace;font-size:11px;color:#5c5c5c;display:block;margin-bottom:6px;">${place.period}</span>
           <p style="font-size:12px;line-height:1.5;color:#1a1a18;margin:0;">${place.note}</p>
         </div>`,
         { maxWidth: 240 }

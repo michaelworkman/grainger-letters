@@ -11,7 +11,7 @@ export function StorySection() {
         {chapters.map((chapter, i) => (
           <article key={chapter.number} className={i > 0 ? "mt-20" : ""}>
             <div className="mb-8">
-              <span className="text-amber text-sm font-sans font-medium tracking-widest uppercase">
+              <span className="font-label text-amber text-sm tracking-widest uppercase">
                 Chapter {Number(chapter.number)}
               </span>
               <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-foreground mt-2">
@@ -22,7 +22,7 @@ export function StorySection() {
             {chapter.content.map((paragraph, pi) => (
               <p
                 key={pi}
-                className="prose-letter mb-6"
+                className="prose-essay mb-6"
               >
                 {paragraph}
               </p>
@@ -30,11 +30,11 @@ export function StorySection() {
 
             {chapter.pullQuote && (
               <blockquote className="border-l-2 border-amber pl-6 my-10">
-                <p className="font-serif text-lg italic text-foreground/80 leading-relaxed">
+                <p className="font-quote text-lg italic text-foreground/80 leading-relaxed">
                   "{chapter.pullQuote}"
                 </p>
                 {chapter.pullQuoteAttribution && (
-                  <cite className="block mt-2 text-sm font-sans text-mid-gray not-italic">
+                  <cite className="font-label block mt-2 text-sm text-mid-gray not-italic">
                     — {chapter.pullQuoteAttribution}
                   </cite>
                 )}

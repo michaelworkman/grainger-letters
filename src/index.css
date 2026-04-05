@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Lora:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -65,22 +65,37 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', serif;
   }
 }
 
 .font-serif {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .font-sans {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+.font-label {
+  font-family: 'Courier Prime', monospace;
+}
+
+.font-quote {
+  font-family: 'Playfair Display', serif;
+}
+
 .prose-letter {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Courier Prime', monospace;
   font-size: 15px;
   line-height: 1.85;
+  color: hsl(var(--ink));
+}
+
+.prose-essay {
+  font-family: 'Lora', serif;
+  font-size: 1.0625rem;
+  line-height: 1.95;
   color: hsl(var(--ink));
 }
 

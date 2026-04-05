@@ -32,7 +32,7 @@ export function Header({ activeSection, onNavigate }: HeaderProps) {
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`text-sm font-medium transition-colors ${
+                className={`font-label text-sm transition-colors ${
                   activeSection === item.id
                     ? "text-amber"
                     : "text-mid-gray hover:text-foreground"
@@ -60,7 +60,7 @@ export function Header({ activeSection, onNavigate }: HeaderProps) {
                   onNavigate(item.id);
                   setMobileOpen(false);
                 }}
-                className={`text-sm font-medium text-left ${
+                className={`font-label text-sm text-left ${
                   activeSection === item.id
                     ? "text-amber"
                     : "text-mid-gray"
