@@ -43,7 +43,7 @@ export function StorySection() {
             )}
 
             {i < chapters.length - 1 && (
-              <div className="w-8 h-0.5 bg-warm-rule mx-auto mt-16" />
+              <div className="w-16 h-0.5 bg-warm-rule mx-auto mt-16" />
             )}
           </article>
         ))}

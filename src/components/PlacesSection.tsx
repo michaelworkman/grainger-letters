@@ -10,9 +10,22 @@ export function PlacesSection() {
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
+    const bounds = L.latLngBounds(places.map((place) => [place.lat, place.lng] as [number, number]));
+
+    const fitMapToPlaces = (map: L.Map) => {
+      const isMobile = window.innerWidth < 640;
+
+      map.fitBounds(bounds, {
+        paddingTopLeft: L.point(isMobile ? 20 : 40, isMobile ? 20 : 40),
+        paddingBottomRight: L.point(isMobile ? 20 : 40, isMobile ? 20 : 40),
+      });
+    };
+
     const map = L.map(mapRef.current, {
       scrollWheelZoom: false,
-    }).setView([35, -20], 3);
+      zoomSnap: 0.25,
+      zoomDelta: 0.25,
+    });
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -38,9 +51,18 @@ export function PlacesSection() {
       );
     });
 
+    fitMapToPlaces(map);
+
+    const handleResize = () => {
+      map.invalidateSize();
+      fitMapToPlaces(map);
+    };
+
+    window.addEventListener("resize", handleResize);
     mapInstanceRef.current = map;
 
     return () => {
+      window.removeEventListener("resize", handleResize);
       map.remove();
       mapInstanceRef.current = null;
     };
