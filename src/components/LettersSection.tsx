@@ -4,7 +4,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Fragment } from "react";
+
 import { letters } from "@/data/letters";
+
+function renderLetterParagraph(paragraph: string) {
+  return paragraph.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={index} className="font-bold">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+
+    return <Fragment key={index}>{part}</Fragment>;
+  });
+}
 
 export function LettersSection() {
   return (
@@ -34,11 +50,11 @@ export function LettersSection() {
                     <span className="font-serif text-xl font-semibold text-foreground sm:text-[1.65rem]">
                       {letter.year}
                     </span>
-                    <span className="font-label text-sm uppercase text-mid-gray">{letter.date}</span>
+                    <span className="font-label text-base uppercase text-mid-gray">{letter.date}</span>
                   </div>
-                  <p className="font-label text-sm text-subtle-gray">{location}</p>
+                  <p className="font-label text-base text-subtle-gray">{location}</p>
                   {letter.note && (
-                    <p className="font-label text-xs italic text-amber">{letter.note}</p>
+                    <p className="font-label text-sm italic text-amber">{letter.note}</p>
                   )}
                 </div>
               </AccordionTrigger>
@@ -46,8 +62,12 @@ export function LettersSection() {
               <AccordionContent className="pb-6">
                 <div className="border-t border-warm-rule pt-6">
                   <div className="max-w-[680px] mx-auto">
-                    <div className="prose-letter whitespace-pre-line">
-                      {letter.content}
+                    <div className="space-y-6">
+                      {letter.content.split(/\n{2,}/).map((paragraph, index) => (
+                        <p key={index} className="prose-letter whitespace-pre-line">
+                          {renderLetterParagraph(paragraph)}
+                        </p>
+                      ))}
                     </div>
                   </div>
 

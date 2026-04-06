@@ -62,10 +62,10 @@ Inslee, Eleanor, and Alice`,
     year: 1965,
     date: "Christmas 1965",
     address: "313 Jackson Avenue, Lexington, Virginia",
-    photo: "/photos/letter_1965_christmas_page1.jpeg",
+    photo: "/photos/letter_1965_christmas_page2.jpeg",
     photos: [
-      "/photos/letter_1965_christmas_page1.jpeg",
-      "/photos/letter_1965_christmas_page2.jpeg"
+      "/photos/letter_1965_christmas_page2.jpeg",
+      "/photos/letter_1965_christmas_page1.jpeg"
     ],
     content: `Merry Christmas All,
 
@@ -342,15 +342,15 @@ Inslee, Eleanor and Alice`
 
 Ma and Pa are alone again (after 31 years) trying to adjust to a life for two. High Point College and First Presbyterian Church keep Inslee totally involved. I'm making a bicentennial quilt, whole wheat bread, talking to my flowers and trying to keep up with scattered family and friends.
 
-Durham, N.C. Alice is enjoying her freshman year at Duke University as an Angier B. Duke Scholar. Her Math Merit Scholarship and working this summer as a nurse's aide at our nearby Presbyterian Home and painting house exteriors with a friend are helping to get her through this year.
+**Durham, N.C.** Alice is enjoying her freshman year at Duke University as an Angier B. Duke Scholar. Her Math Merit Scholarship and working this summer as a nurse's aide at our nearby Presbyterian Home and painting house exteriors with a friend are helping to get her through this year.
 
-Brussels, Belgium. Major Tom is Personnel Officer at SHAPE Headquarters Hospital. Mike is in French Kindergarten. They have their house with its spacious gardens, orchards, etc. in the vicinity of Brussels. Penny plans to resume teaching piano lessons after Christmas. Tour of duty 39 months.
+**Brussels, Belgium.** Major Tom is Personnel Officer at SHAPE Headquarters Hospital. Mike is in French Kindergarten. They have their house with its spacious gardens, orchards, etc. in the vicinity of Brussels. Penny plans to resume teaching piano lessons after Christmas. Tour of duty 39 months.
 
-Richmond, Va. Pixie is teaching one math class in a Community College and working in a needlework shop three mornings a week while Mike is in nursery school. Jim is a Deacon and Pix on the Choir in Ginter Park Church. We plan to take Mom with us for another Christmas with them. Mike (age 3½) spent a week with us recently. We liked that! His comment on arrival: "Grandma, I'm delighted to be here."
+**Richmond, Va.** Pixie is teaching one math class in a Community College and working in a needlework shop three mornings a week while Mike is in nursery school. Jim is a Deacon and Pix on the Choir in Ginter Park Church. We plan to take Mom with us for another Christmas with them. Mike (age 3½) spent a week with us recently. We liked that! His comment on arrival: "Grandma, I'm delighted to be here."
 
-Roanoke, Va. Grandma Ziegler is happily settled in The Methodist Home -- Box 6339, Roanoke, Va 24017. Our preparation for her entry on Dec 27 '74 accounts for our lack of communication with you last Christmas. We celebrated her 89th birthday at Pixie's with friends from Alexandria.
+**Roanoke, Va.** Grandma Ziegler is happily settled in The Methodist Home -- Box 6339, Roanoke, Va 24017. Our preparation for her entry on Dec 27 '74 accounts for our lack of communication with you last Christmas. We celebrated her 89th birthday at Pixie's with friends from Alexandria.
 
-Quarryville, Pa. Grandmother Grainger will be 96 on Dec 7. She is quite well. We haven't seen her since November '74.
+**Quarryville, Pa.** Grandmother Grainger will be 96 on Dec 7. She is quite well. We haven't seen her since November '74.
 
 Now we await your news. God bless you and may 1976 bring health and happiness to you all.
 

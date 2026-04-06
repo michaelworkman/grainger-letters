@@ -10,7 +10,7 @@ interface Message {
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 const suggestions = [
-  "Who was Pixie?",
+  "Who is Pixie?",
   "Tell me about Alice's humanitarian work",
   "What happened on Mother's Day 1973?",
   "How did Alice and Patrick meet?",

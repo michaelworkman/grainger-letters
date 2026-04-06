@@ -8,7 +8,9 @@ export function Hero() {
           className="w-[300px] max-w-full h-auto mx-auto mb-8"
         />
         <h1 className="font-serif text-[2.7rem] sm:text-[3.6rem] md:text-[4.5rem] font-semibold text-foreground leading-tight tracking-tight">
-          The Grainger family letters
+          The Grainger
+          <br />
+          family letters
         </h1>
         <p className="mt-4 text-mid-gray text-base sm:text-lg font-label">
           1963–1999

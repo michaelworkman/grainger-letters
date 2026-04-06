@@ -52,14 +52,14 @@ const Index = () => {
 
       <div className="w-full max-w-5xl mx-auto h-px bg-warm-rule" />
 
-      <div ref={lettersRef}>
-        <LettersSection />
+      <div ref={placesRef}>
+        <PlacesSection />
       </div>
 
       <div className="w-full max-w-5xl mx-auto h-px bg-warm-rule" />
 
-      <div ref={placesRef}>
-        <PlacesSection />
+      <div ref={lettersRef}>
+        <LettersSection />
       </div>
 
       <div className="w-full max-w-5xl mx-auto h-px bg-warm-rule" />
