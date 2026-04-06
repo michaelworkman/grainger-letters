@@ -26,12 +26,8 @@ export function StorySection() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section className="py-16 px-4">
+    <section className="pb-16 px-4">
       <div className="max-w-[680px] mx-auto">
-        <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-foreground mb-16 text-center">
-          The Story
-        </h2>
-
         {chapters.map((chapter, i) => {
           const isPreviewChapter = i === STORY_PREVIEW_BREAK.chapterIndex;
 

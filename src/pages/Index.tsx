@@ -36,6 +36,9 @@ const Index = () => {
 
       <section className="px-4 pb-12">
         <div className="max-w-[680px] mx-auto">
+          <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-foreground mb-12 text-center">
+            The Story
+          </h2>
           <img
             src="/photos/inslee-eleanor-grainger.jpg"
             alt="Eleanor and Inslee Grainger standing together outdoors"

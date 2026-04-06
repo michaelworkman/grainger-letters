@@ -3,6 +3,26 @@ import { places } from "@/data/places";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+const placeBounds = L.latLngBounds(
+  places.map((place) => [place.lat, place.lng] as [number, number]),
+);
+
+const latSpan = Math.max(
+  placeBounds.getNorth() - placeBounds.getSouth(),
+  1,
+);
+const lngSpan = Math.max(
+  placeBounds.getEast() - placeBounds.getWest(),
+  1,
+);
+const midLatitudeRadians =
+  ((placeBounds.getNorth() + placeBounds.getSouth()) / 2) * (Math.PI / 180);
+const projectedLngSpan = lngSpan * Math.cos(midLatitudeRadians);
+const mobileMapAspectRatio = Math.min(
+  1.7,
+  Math.max(1.3, projectedLngSpan / latSpan),
+);
+
 export function PlacesSection() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -10,12 +30,10 @@ export function PlacesSection() {
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
-    const bounds = L.latLngBounds(places.map((place) => [place.lat, place.lng] as [number, number]));
-
     const fitMapToPlaces = (map: L.Map) => {
       const isMobile = window.innerWidth < 640;
 
-      map.fitBounds(bounds, {
+      map.fitBounds(placeBounds, {
         paddingTopLeft: L.point(isMobile ? 20 : 40, isMobile ? 20 : 40),
         paddingBottomRight: L.point(isMobile ? 20 : 40, isMobile ? 20 : 40),
       });
@@ -79,7 +97,8 @@ export function PlacesSection() {
         </p>
         <div
           ref={mapRef}
-          className="w-full h-[500px] sm:h-[600px] rounded border border-warm-rule"
+          className="w-full min-h-[240px] rounded border border-warm-rule sm:min-h-0 sm:h-[600px]"
+          style={{ aspectRatio: `${mobileMapAspectRatio.toFixed(2)} / 1` }}
         />
       </div>
     </section>
