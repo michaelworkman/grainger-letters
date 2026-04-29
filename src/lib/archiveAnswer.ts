@@ -403,6 +403,10 @@ function scorePassage(passage: Passage, questionProfile: QuestionProfile, terms:
   return scoreText(passage.text, passage.source, questionProfile, terms, passage.kind, passage.year);
 }
 
+function buildUnableToAnswerMessage() {
+  return "I couldn’t find a reliable answer to that in the letters and story on this site.";
+}
+
 function fallbackAnswer(question: string) {
   const terms = extractTerms(question);
   const questionProfile = detectQuestionProfile(question);
@@ -415,6 +419,17 @@ function fallbackAnswer(question: string) {
     .filter((entry) => entry.score > 0)
     .sort((a, b) => b.score - a.score || a.passage.sourceOrder - b.passage.sourceOrder);
 
+  const topScore = ranked[0]?.score ?? 0;
+  const secondScore = ranked[1]?.score ?? 0;
+  const isFactQuestion =
+    questionProfile.asksWho ||
+    questionProfile.asksWhen ||
+    questionProfile.asksWhere ||
+    questionProfile.mentionsMarriage ||
+    questionProfile.mentionsBirth ||
+    questionProfile.mentionsDeath ||
+    questionProfile.mentionsEducation;
+
   const uniqueSources = new Set<string>();
   const topMatches = ranked.filter((entry) => {
     if (uniqueSources.has(entry.passage.source)) return false;
@@ -423,7 +438,19 @@ function fallbackAnswer(question: string) {
   }).slice(0, 3);
 
   if (topMatches.length === 0) {
-    return "I couldn’t find a clear answer to that in the letters and story on this site.\n\nTry asking about a person, a place, a year, or an event like Mother’s Day 1973 or 313 Jackson Avenue.";
+    return buildUnableToAnswerMessage();
+  }
+
+  if (topScore < 12) {
+    return buildUnableToAnswerMessage();
+  }
+
+  if (isFactQuestion && topScore < 18) {
+    return buildUnableToAnswerMessage();
+  }
+
+  if (isFactQuestion && topScore - secondScore < 3) {
+    return buildUnableToAnswerMessage();
   }
 
   const useSingleLead =
