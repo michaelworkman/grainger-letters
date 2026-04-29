@@ -71,11 +71,11 @@ const STOP_WORDS = new Set([
 const ENTITY_GROUPS: Array<{ pattern: RegExp; aliases: string[] }> = [
   {
     pattern: /\bmike workman\b|\bmichael workman\b/,
-    aliases: ["workman", "pixie", "jim", "sarah", "richmond", "chapel", "hill", "unc", "journalism", "norfolk"],
+    aliases: ["mike", "michael", "workman", "pixie", "jim", "sarah", "richmond"],
   },
   {
     pattern: /\bmike adams\b|\bmichael dollison\b/,
-    aliases: ["adams", "penny", "tom", "mimi", "fort", "dix", "brussels", "belgium", "roanoke", "washington", "lee", "computer", "electronics"],
+    aliases: ["mike", "michael", "adams", "penny", "tom", "mimi", "fort", "dix"],
   },
   { pattern: /\bpix(?:ie)?\b|\beleanor workman\b|\bjim workman\b/, aliases: ["pixie", "pix", "jim", "workman"] },
   { pattern: /\balice\b|\bgasser\b|\bpatrick\b/, aliases: ["alice", "patrick", "gasser", "joseph", "elena"] },
@@ -87,11 +87,11 @@ const ENTITY_GROUPS: Array<{ pattern: RegExp; aliases: string[] }> = [
 const TERM_EXPANSIONS: Array<{ pattern: RegExp; terms: string[] }> = [
   {
     pattern: /\bmike workman\b|\bmichael workman\b/,
-    terms: ["workman", "pixie", "jim", "sarah", "richmond", "chapel", "hill", "unc", "journalism", "norfolk"],
+    terms: ["mike", "michael", "workman", "pixie", "jim", "sarah", "richmond", "chapel", "hill", "unc", "journalism", "norfolk"],
   },
   {
     pattern: /\bmike adams\b|\bmichael dollison\b/,
-    terms: ["adams", "penny", "tom", "mimi", "fort", "dix", "brussels", "belgium", "roanoke", "washington", "lee", "computer", "electronics"],
+    terms: ["mike", "michael", "adams", "penny", "tom", "mimi", "fort", "dix", "brussels", "belgium", "roanoke", "washington", "lee", "computer", "electronics"],
   },
   { pattern: /\bpix(?:ie)?\b|\beleanor workman\b|\bjim workman\b/, terms: ["pixie", "pix", "jim", "workman", "eleanor"] },
   { pattern: /\balice\b/, terms: ["alice", "gasser", "patrick"] },
@@ -123,6 +123,16 @@ const CURATED_RESPONSES: CuratedResponse[] = [
       "Mike Adams was Penny and Tom Adams’s son, and the first of the two cousins named Mike. Chapter 4 says he was born on September 23, 1970, at Fort Dix, New Jersey, and became the family’s first grandchild.\n\nThe story and later letters say he grew up in an Army family, studied languages and computer science, attended Washington and Lee, and later consulted in computers and electronics.",
   },
   {
+    patterns: [/when was mike workman born/i, /when was michael workman born/i],
+    answer:
+      "Mike Workman was born in 1972 in Richmond. Chapter 4 says that two years after Mike Adams’s 1970 birth, another Mike arrived in Richmond: Michael Workman, son of Pixie and Jim.",
+  },
+  {
+    patterns: [/when was mike adams born/i, /when was michael dollison born/i],
+    answer:
+      "Mike Adams was born on September 23, 1970, at Fort Dix, New Jersey. Chapter 4 and the 1970 letter both give that date and place.",
+  },
+  {
     patterns: [/which mike went to unc/i, /which mike went to chapel hill/i, /who went to unc.*mike/i],
     answer:
       "Mike Workman was the Mike who went to UNC Chapel Hill. Chapter 5 places him there beginning in 1990, and the 1994 letter says he graduated from Chapel Hill in Journalism before going to work at a Norfolk newspaper.\n\nMike Adams was the cousin who attended Washington and Lee instead.",
@@ -138,6 +148,11 @@ const CURATED_RESPONSES: CuratedResponse[] = [
       "The letters distinguish between two cousins named Mike. Mike Adams was Penny and Tom Adams’s son, born at Fort Dix in 1970; he later attended Washington and Lee and worked in computers and electronics.\n\nMike Workman was Pixie and Jim Workman’s son, born in Richmond in 1972; he later attended UNC Chapel Hill, graduated in Journalism, and worked at a Norfolk newspaper.",
   },
   {
+    patterns: [/where did mike adams go to college/i, /what college did mike adams attend/i],
+    answer:
+      "Mike Adams attended Washington and Lee. Chapter 4 says he grew up to study languages and computer science there, and the 1988 letter says he was a freshman at W and L.",
+  },
+  {
     patterns: [
       /when did pix(?:ie)? get married/i,
       /when did pix(?:ie)? marry/i,
@@ -146,6 +161,16 @@ const CURATED_RESPONSES: CuratedResponse[] = [
     ],
     answer:
       "Pixie married Jim Workman on April 8, 1967, in Lexington. The December 8, 1966 letter says the wedding was scheduled for April 8, and the December 6, 1967 letter says that plan had become a reality by April eighth.",
+  },
+  {
+    patterns: [/where did pix(?:ie)? live after germany/i, /where did pix(?:ie)? live when (?:she|they) came back from germany/i],
+    answer:
+      "After Germany, Pixie and Jim settled in Newport News. Chapter 2 says that when Jim's Army service ended in the spring of 1968, they returned to the States and settled there, where Pixie taught Math and Jim coached and taught History.",
+  },
+  {
+    patterns: [/when did inslee retire from (?:the )?(?:u\.s\.\s*)?navy/i, /when did inslee retire from navy/i],
+    answer:
+      "Inslee Grainger retired from the U.S. Navy on September 1, 1962. The 1963 letter says he left the Navy then to become an instructor in French and Spanish at Washington and Lee.",
   },
   {
     patterns: [/alice.*humanitarian/i, /humanitarian.*alice/i, /tell me about alice/i],
@@ -233,7 +258,7 @@ function detectQuestionProfile(question: string): QuestionProfile {
     mentionsMarriage: /\bmarry\b|\bmarried\b|\bwedding\b|\bwed\b/.test(normalizedQuestion),
     mentionsBirth: /\bborn\b|\bbirth\b|\barrived\b/.test(normalizedQuestion),
     mentionsDeath: /\bdie\b|\bdied\b|\bdeath\b|\bpassed away\b/.test(normalizedQuestion),
-    mentionsEducation: /\bdoctorate\b|\bphd\b|\bph d\b|\bgraduat\b|\bdegree\b|\bcommencement\b/.test(normalizedQuestion),
+    mentionsEducation: /\bdoctorate\b|\bphd\b|\bph d\b|\bgraduat\b|\bdegree\b|\bcommencement\b|\bcollege\b|\buniversity\b|\bschool\b|\battend\b|\battended\b/.test(normalizedQuestion),
     activeEntityAliases: [...activeEntityAliases],
   };
 }
@@ -320,7 +345,7 @@ function scoreText(text: string, source: string, questionProfile: QuestionProfil
   }
 
   if (questionProfile.mentionsEducation) {
-    score += /\bdoctorate\b|\bphd\b|\bph d\b|\bgraduat\b|\bdegree\b|\bcommencement\b/.test(normalizedText) ? 6 : -1;
+    score += /\bdoctorate\b|\bphd\b|\bph d\b|\bgraduat\b|\bdegree\b|\bcommencement\b|\bcollege\b|\buniversity\b|\bschool\b|\battend\b|\battended\b/.test(normalizedText) ? 6 : -1;
   }
 
   if (questionProfile.normalizedQuestion.includes("mother s day 1973") && normalizedSource.includes("1973 letter")) {
@@ -441,15 +466,11 @@ function fallbackAnswer(question: string) {
     return buildUnableToAnswerMessage();
   }
 
-  if (topScore < 12) {
+  if (topScore < 9) {
     return buildUnableToAnswerMessage();
   }
 
-  if (isFactQuestion && topScore < 18) {
-    return buildUnableToAnswerMessage();
-  }
-
-  if (isFactQuestion && topScore - secondScore < 3) {
+  if (isFactQuestion && topScore < 14) {
     return buildUnableToAnswerMessage();
   }
 
