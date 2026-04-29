@@ -69,6 +69,14 @@ const STOP_WORDS = new Set([
 ]);
 
 const ENTITY_GROUPS: Array<{ pattern: RegExp; aliases: string[] }> = [
+  {
+    pattern: /\bmike workman\b|\bmichael workman\b/,
+    aliases: ["workman", "pixie", "jim", "sarah", "richmond", "chapel", "hill", "unc", "journalism", "norfolk"],
+  },
+  {
+    pattern: /\bmike adams\b|\bmichael dollison\b/,
+    aliases: ["adams", "penny", "tom", "mimi", "fort", "dix", "brussels", "belgium", "roanoke", "washington", "lee", "computer", "electronics"],
+  },
   { pattern: /\bpix(?:ie)?\b|\beleanor workman\b|\bjim workman\b/, aliases: ["pixie", "pix", "jim", "workman"] },
   { pattern: /\balice\b|\bgasser\b|\bpatrick\b/, aliases: ["alice", "patrick", "gasser", "joseph", "elena"] },
   { pattern: /\bpenny\b|\bjeanette\b|\badams\b/, aliases: ["penny", "jeanette", "tom", "adams"] },
@@ -77,6 +85,14 @@ const ENTITY_GROUPS: Array<{ pattern: RegExp; aliases: string[] }> = [
 ];
 
 const TERM_EXPANSIONS: Array<{ pattern: RegExp; terms: string[] }> = [
+  {
+    pattern: /\bmike workman\b|\bmichael workman\b/,
+    terms: ["workman", "pixie", "jim", "sarah", "richmond", "chapel", "hill", "unc", "journalism", "norfolk"],
+  },
+  {
+    pattern: /\bmike adams\b|\bmichael dollison\b/,
+    terms: ["adams", "penny", "tom", "mimi", "fort", "dix", "brussels", "belgium", "roanoke", "washington", "lee", "computer", "electronics"],
+  },
   { pattern: /\bpix(?:ie)?\b|\beleanor workman\b|\bjim workman\b/, terms: ["pixie", "pix", "jim", "workman", "eleanor"] },
   { pattern: /\balice\b/, terms: ["alice", "gasser", "patrick"] },
   { pattern: /\bpatrick\b/, terms: ["patrick", "gasser", "alice"] },
@@ -95,6 +111,31 @@ const CURATED_RESPONSES: CuratedResponse[] = [
     patterns: [/^who is pixie\??$/i, /^who was pixie\??$/i],
     answer:
       "Pixie was Inslee and Eleanor Grainger’s middle daughter. In chapter 1 of the story, she is described as a linguist and mathematician named Eleanor after her mother, who went by Pixie to avoid confusion.\n\nChapter 2 follows her marriage to Jim Workman in 1967 and her move first to Germany and then Newport News, and chapter 5 places her later in Richmond teaching math, working in a needlework shop, and raising Mike and Sarah.",
+  },
+  {
+    patterns: [/^who is mike workman\??$/i, /^who was mike workman\??$/i, /tell me about mike workman/i],
+    answer:
+      "Mike Workman was Pixie and Jim Workman’s son, the second of the two cousins named Mike. Chapter 4 says he was born in Richmond in 1972, and chapter 5 follows him growing up in Richmond with his sister Sarah.\n\nThe later letters place him at UNC Chapel Hill beginning in 1990. The 1994 letter says he graduated there in Journalism and went on to work at a newspaper in Norfolk.",
+  },
+  {
+    patterns: [/^who is mike adams\??$/i, /^who was mike adams\??$/i, /tell me about mike adams/i],
+    answer:
+      "Mike Adams was Penny and Tom Adams’s son, and the first of the two cousins named Mike. Chapter 4 says he was born on September 23, 1970, at Fort Dix, New Jersey, and became the family’s first grandchild.\n\nThe story and later letters say he grew up in an Army family, studied languages and computer science, attended Washington and Lee, and later consulted in computers and electronics.",
+  },
+  {
+    patterns: [/which mike went to unc/i, /which mike went to chapel hill/i, /who went to unc.*mike/i],
+    answer:
+      "Mike Workman was the Mike who went to UNC Chapel Hill. Chapter 5 places him there beginning in 1990, and the 1994 letter says he graduated from Chapel Hill in Journalism before going to work at a Norfolk newspaper.\n\nMike Adams was the cousin who attended Washington and Lee instead.",
+  },
+  {
+    patterns: [/which mike went to washington and lee/i, /which mike went to w and l/i, /which mike went to w&l/i],
+    answer:
+      "Mike Adams was the Mike who attended Washington and Lee. Chapter 4 identifies him as Penny and Tom Adams’s son, and the later letters describe him studying languages and computer science there.\n\nMike Workman was the cousin who went to UNC Chapel Hill instead.",
+  },
+  {
+    patterns: [/difference between mike workman and mike adams/i, /who is which mike/i, /two cousins named mike/i],
+    answer:
+      "The letters distinguish between two cousins named Mike. Mike Adams was Penny and Tom Adams’s son, born at Fort Dix in 1970; he later attended Washington and Lee and worked in computers and electronics.\n\nMike Workman was Pixie and Jim Workman’s son, born in Richmond in 1972; he later attended UNC Chapel Hill, graduated in Journalism, and worked at a Norfolk newspaper.",
   },
   {
     patterns: [
