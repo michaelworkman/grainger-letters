@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { answerArchiveQuestion } from "@/lib/archiveAnswer";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
-
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 const suggestions = [
   "Who is Pixie?",
@@ -17,64 +16,23 @@ const suggestions = [
   "Tell me about 313 Jackson Avenue",
 ];
 
-async function streamChat({
-  messages,
+async function streamLocalAnswer({
+  prompt,
   onDelta,
   onDone,
-  onError,
 }: {
-  messages: Message[];
+  prompt: string;
   onDelta: (text: string) => void;
   onDone: () => void;
-  onError: (err: string) => void;
 }) {
-  const resp = await fetch(CHAT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-    },
-    body: JSON.stringify({ messages }),
-  });
+  const answer = answerArchiveQuestion(prompt);
+  const tokens = answer.split(/(\s+)/).filter(Boolean);
 
-  if (!resp.ok) {
-    const data = await resp.json().catch(() => null);
-    onError(data?.error || `Error ${resp.status}`);
-    return;
+  for (const token of tokens) {
+    onDelta(token);
+    await new Promise((resolve) => setTimeout(resolve, /\s+/.test(token) ? 0 : 18));
   }
 
-  if (!resp.body) {
-    onError("No response body");
-    return;
-  }
-
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let buf = "";
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += decoder.decode(value, { stream: true });
-
-    let nl: number;
-    while ((nl = buf.indexOf("\n")) !== -1) {
-      let line = buf.slice(0, nl);
-      buf = buf.slice(nl + 1);
-      if (line.endsWith("\r")) line = line.slice(0, -1);
-      if (!line.startsWith("data: ")) continue;
-      const json = line.slice(6).trim();
-      if (json === "[DONE]") { onDone(); return; }
-      try {
-        const parsed = JSON.parse(json);
-        const content = parsed.choices?.[0]?.delta?.content;
-        if (content) onDelta(content);
-      } catch {
-        buf = line + "\n" + buf;
-        break;
-      }
-    }
-  }
   onDone();
 }
 
@@ -107,17 +65,13 @@ export function AskSection() {
     };
 
     try {
-      await streamChat({
-        messages: newMessages,
+      await streamLocalAnswer({
+        prompt: userMsg.content,
         onDelta: upsert,
         onDone: () => setLoading(false),
-        onError: (err) => {
-          upsert(`Sorry, something went wrong: ${err}`);
-          setLoading(false);
-        },
       });
     } catch {
-      upsert("Sorry, I couldn't connect to the AI service. Please try again.");
+      upsert("Sorry, something went wrong while searching the archive. Please try again.");
       setLoading(false);
     }
   };
