@@ -16,6 +16,21 @@ type CuratedResponse = {
   answer: string;
 };
 
+type QuestionProfile = {
+  normalizedQuestion: string;
+  requestedYears: string[];
+  asksWhen: boolean;
+  asksWhere: boolean;
+  asksWho: boolean;
+  asksWhy: boolean;
+  asksHow: boolean;
+  mentionsMarriage: boolean;
+  mentionsBirth: boolean;
+  mentionsDeath: boolean;
+  mentionsEducation: boolean;
+  activeEntityAliases: string[];
+};
+
 const STOP_WORDS = new Set([
   "a",
   "about",
@@ -25,8 +40,12 @@ const STOP_WORDS = new Set([
   "are",
   "be",
   "did",
+  "do",
+  "does",
   "for",
   "from",
+  "get",
+  "got",
   "happened",
   "how",
   "i",
@@ -49,8 +68,16 @@ const STOP_WORDS = new Set([
   "with",
 ]);
 
+const ENTITY_GROUPS: Array<{ pattern: RegExp; aliases: string[] }> = [
+  { pattern: /\bpix(?:ie)?\b|\beleanor workman\b|\bjim workman\b/, aliases: ["pixie", "pix", "jim", "workman"] },
+  { pattern: /\balice\b|\bgasser\b|\bpatrick\b/, aliases: ["alice", "patrick", "gasser", "joseph", "elena"] },
+  { pattern: /\bpenny\b|\bjeanette\b|\badams\b/, aliases: ["penny", "jeanette", "tom", "adams"] },
+  { pattern: /\binslee\b/, aliases: ["inslee", "grainger", "doctorate", "phd"] },
+  { pattern: /\beleanor\b/, aliases: ["eleanor", "grainger", "letters"] },
+];
+
 const TERM_EXPANSIONS: Array<{ pattern: RegExp; terms: string[] }> = [
-  { pattern: /\bpixie\b|\beleanor workman\b/, terms: ["pixie", "workman", "eleanor"] },
+  { pattern: /\bpix(?:ie)?\b|\beleanor workman\b|\bjim workman\b/, terms: ["pixie", "pix", "jim", "workman", "eleanor"] },
   { pattern: /\balice\b/, terms: ["alice", "gasser", "patrick"] },
   { pattern: /\bpatrick\b/, terms: ["patrick", "gasser", "alice"] },
   { pattern: /\bpenny\b|\bjeanette\b/, terms: ["penny", "adams", "jeanette", "tom"] },
@@ -68,6 +95,16 @@ const CURATED_RESPONSES: CuratedResponse[] = [
     patterns: [/^who is pixie\??$/i, /^who was pixie\??$/i],
     answer:
       "Pixie was Inslee and Eleanor Grainger’s middle daughter. In chapter 1 of the story, she is described as a linguist and mathematician named Eleanor after her mother, who went by Pixie to avoid confusion.\n\nChapter 2 follows her marriage to Jim Workman in 1967 and her move first to Germany and then Newport News, and chapter 5 places her later in Richmond teaching math, working in a needlework shop, and raising Mike and Sarah.",
+  },
+  {
+    patterns: [
+      /when did pix(?:ie)? get married/i,
+      /when did pix(?:ie)? marry/i,
+      /when was pix(?:ie)? married/i,
+      /when did eleanor workman get married/i,
+    ],
+    answer:
+      "Pixie married Jim Workman on April 8, 1967, in Lexington. The December 8, 1966 letter says the wedding was scheduled for April 8, and the December 6, 1967 letter says that plan had become a reality by April eighth.",
   },
   {
     patterns: [/alice.*humanitarian/i, /humanitarian.*alice/i, /tell me about alice/i],
@@ -125,12 +162,171 @@ function splitIntoParagraphs(text: string) {
     .filter(Boolean);
 }
 
-function summarizePassage(text: string) {
-  const sentences = text.match(/[^.!?]+[.!?]?/g)?.map((sentence) => sentence.trim()).filter(Boolean) ?? [];
-  if (sentences.length <= 2) {
-    return text.trim();
+function splitIntoSentences(text: string) {
+  return text
+    .split(/(?<=[.!?])\s+(?=[A-Z"“])/)
+    .map((sentence) => sentence.trim())
+    .filter(Boolean);
+}
+
+function detectQuestionProfile(question: string): QuestionProfile {
+  const normalizedQuestion = normalize(question);
+  const activeEntityAliases = new Set<string>();
+
+  for (const group of ENTITY_GROUPS) {
+    if (group.pattern.test(normalizedQuestion)) {
+      for (const alias of group.aliases) {
+        activeEntityAliases.add(alias);
+      }
+    }
   }
-  return `${sentences[0]} ${sentences[1]}`.trim();
+
+  return {
+    normalizedQuestion,
+    requestedYears: normalizedQuestion.match(/\b(?:19|20)\d{2}\b/g) ?? [],
+    asksWhen: /\bwhen\b/.test(normalizedQuestion),
+    asksWhere: /\bwhere\b|\blive\b|\blived\b|\bhome\b|\bbased\b|\blocation\b|\bmap\b/.test(normalizedQuestion),
+    asksWho: /\bwho\b/.test(normalizedQuestion),
+    asksWhy: /\bwhy\b/.test(normalizedQuestion),
+    asksHow: /\bhow\b/.test(normalizedQuestion),
+    mentionsMarriage: /\bmarry\b|\bmarried\b|\bwedding\b|\bwed\b/.test(normalizedQuestion),
+    mentionsBirth: /\bborn\b|\bbirth\b|\barrived\b/.test(normalizedQuestion),
+    mentionsDeath: /\bdie\b|\bdied\b|\bdeath\b|\bpassed away\b/.test(normalizedQuestion),
+    mentionsEducation: /\bdoctorate\b|\bphd\b|\bph d\b|\bgraduat\b|\bdegree\b|\bcommencement\b/.test(normalizedQuestion),
+    activeEntityAliases: [...activeEntityAliases],
+  };
+}
+
+function containsDateLike(text: string) {
+  return /\b(january|february|march|april|may|june|july|august|september|october|november|december|christmas|easter|mother s day|spring|summer|fall|autumn)\b|\b(?:19|20)\d{2}\b|\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|twentieth|twenty first|twenty second|twenty third|twenty fourth|twenty fifth|twenty sixth|twenty seventh|twenty eighth|twenty ninth|thirtieth|thirty first)\b/.test(
+    text,
+  );
+}
+
+function containsLocationLike(text: string) {
+  return /\b(in|at|near|from|to)\b/.test(text) && /\b(virginia|north carolina|south carolina|pennsylvania|new jersey|texas|germany|switzerland|ethiopia|sudan|rwanda|thailand|kuwait|lexington|richmond|roanoke|chapel hill|high point|newport news|wurzburg|würzburg|lungern|nyon|geneva)\b/.test(
+    text,
+  );
+}
+
+function scoreText(text: string, source: string, questionProfile: QuestionProfile, terms: string[], kind: Passage["kind"], year?: number) {
+  const normalizedText = normalize(text);
+  const normalizedSource = normalize(source);
+  let score = 0;
+
+  for (const term of terms) {
+    if (normalizedText.includes(term)) {
+      score += 3;
+    }
+    if (normalizedSource.includes(term)) {
+      score += 2;
+    }
+  }
+
+  if (questionProfile.activeEntityAliases.length > 0) {
+    const entityHits = questionProfile.activeEntityAliases.filter(
+      (alias) => normalizedText.includes(alias) || normalizedSource.includes(alias),
+    ).length;
+
+    if (entityHits > 0) {
+      score += 6 + entityHits * 2;
+    } else {
+      score -= 6;
+    }
+  }
+
+  for (const yearText of questionProfile.requestedYears) {
+    if (normalizedText.includes(yearText) || normalizedSource.includes(yearText)) {
+      score += 4;
+    }
+  }
+
+  if (
+    questionProfile.requestedYears.length > 0 &&
+    !questionProfile.requestedYears.some((yearText) => normalizedText.includes(yearText) || normalizedSource.includes(yearText))
+  ) {
+    score -= 3;
+  }
+
+  if (year && questionProfile.normalizedQuestion.includes(String(year))) {
+    score += 4;
+  }
+
+  if (questionProfile.asksWhen) {
+    score += containsDateLike(normalizedText) ? 7 : -2;
+    score += kind === "letter" ? 3 : 0;
+  }
+
+  if (questionProfile.asksWhere) {
+    score += kind === "place" ? 5 : 0;
+    score += containsLocationLike(normalizedText) ? 5 : -1;
+  }
+
+  if (questionProfile.asksWho) {
+    score += /\bis\b|\bwas\b|\bdaughter\b|\bson\b|\bwife\b|\bhusband\b/.test(normalizedText) ? 4 : 0;
+  }
+
+  if (questionProfile.mentionsMarriage) {
+    score += /\bmarry\b|\bmarried\b|\bwedding\b|\bwed\b/.test(normalizedText) ? 7 : -2;
+  }
+
+  if (questionProfile.mentionsBirth) {
+    score += /\bborn\b|\bbirth\b|\bbabe\b|\barrived\b/.test(normalizedText) ? 6 : -1;
+  }
+
+  if (questionProfile.mentionsDeath) {
+    score += /\bdie\b|\bdied\b|\bdeath\b|\bpassed away\b/.test(normalizedText) ? 6 : -1;
+  }
+
+  if (questionProfile.mentionsEducation) {
+    score += /\bdoctorate\b|\bphd\b|\bph d\b|\bgraduat\b|\bdegree\b|\bcommencement\b/.test(normalizedText) ? 6 : -1;
+  }
+
+  if (questionProfile.normalizedQuestion.includes("mother s day 1973") && normalizedSource.includes("1973 letter")) {
+    score += 6;
+  }
+
+  if (questionProfile.normalizedQuestion.includes("313 jackson avenue") && normalizedText.includes("313 jackson avenue")) {
+    score += 6;
+  }
+
+  return score;
+}
+
+function buildEvidenceSnippet(passage: Passage, questionProfile: QuestionProfile, terms: string[]) {
+  const sentences = splitIntoSentences(passage.text);
+  if (sentences.length <= 1) {
+    return passage.text.trim();
+  }
+
+  const rankedSentences = sentences
+    .map((sentence, index) => ({
+      index,
+      sentence,
+      score: scoreText(sentence, passage.source, questionProfile, terms, passage.kind, passage.year),
+    }))
+    .sort((a, b) => b.score - a.score || a.index - b.index);
+
+  const bestSentence = rankedSentences[0];
+  if (!bestSentence || bestSentence.score <= 0) {
+    return sentences.slice(0, 2).join(" ").trim();
+  }
+
+  const selectedIndexes = new Set([bestSentence.index]);
+  for (const candidate of rankedSentences.slice(1)) {
+    if (
+      Math.abs(candidate.index - bestSentence.index) === 1 &&
+      candidate.score >= Math.max(2, bestSentence.score - 5)
+    ) {
+      selectedIndexes.add(candidate.index);
+    }
+  }
+
+  return [...selectedIndexes]
+    .sort((a, b) => a - b)
+    .map((index) => sentences[index])
+    .join(" ")
+    .trim();
 }
 
 const PASSAGES: Passage[] = [
@@ -146,7 +342,7 @@ const PASSAGES: Passage[] = [
   ...letters.flatMap((letter, letterIndex) =>
     splitIntoParagraphs(letter.content).map((paragraph, paragraphIndex) => ({
       kind: "letter" as const,
-      source: `${letter.year} letter`,
+      source: `${letter.year} letter (${letter.date})`,
       sourceOrder: letterIndex * 100 + paragraphIndex,
       text: paragraph,
       normalized: normalize(paragraph),
@@ -162,58 +358,18 @@ const PASSAGES: Passage[] = [
   })),
 ];
 
-function scorePassage(passage: Passage, question: string, terms: string[]) {
-  const normalizedQuestion = normalize(question);
-  const requestedYears = normalizedQuestion.match(/\b(19|20)\d{2}\b/g) ?? [];
-  const isLocationQuestion = /\bwhere\b|\blive\b|\blived\b|\bhome\b|\bbased\b|\blocation\b|\bmap\b/.test(
-    normalizedQuestion,
-  );
-  let score = 0;
-
-  for (const term of terms) {
-    if (passage.normalized.includes(term)) {
-      score += 3;
-    }
-    if (normalize(passage.source).includes(term)) {
-      score += 2;
-    }
-  }
-
-  for (const year of requestedYears) {
-    if (passage.normalized.includes(year)) {
-      score += 4;
-    }
-  }
-
-  if (requestedYears.length > 0 && !requestedYears.some((year) => passage.normalized.includes(year))) {
-    score -= 3;
-  }
-
-  if (passage.year && normalizedQuestion.includes(String(passage.year))) {
-    score += 4;
-  }
-
-  if (isLocationQuestion) {
-    score += passage.kind === "place" ? 3 : -1;
-  }
-
-  if (normalizedQuestion.includes("mother s day 1973") && passage.source === "1973 letter") {
-    score += 6;
-  }
-
-  if (normalizedQuestion.includes("313 jackson avenue") && passage.normalized.includes("313 jackson avenue")) {
-    score += 6;
-  }
-
-  return score;
+function scorePassage(passage: Passage, questionProfile: QuestionProfile, terms: string[]) {
+  return scoreText(passage.text, passage.source, questionProfile, terms, passage.kind, passage.year);
 }
 
 function fallbackAnswer(question: string) {
   const terms = extractTerms(question);
+  const questionProfile = detectQuestionProfile(question);
   const ranked = PASSAGES
     .map((passage) => ({
       passage,
-      score: scorePassage(passage, question, terms),
+      score: scorePassage(passage, questionProfile, terms),
+      snippet: buildEvidenceSnippet(passage, questionProfile, terms),
     }))
     .filter((entry) => entry.score > 0)
     .sort((a, b) => b.score - a.score || a.passage.sourceOrder - b.passage.sourceOrder);
@@ -229,13 +385,18 @@ function fallbackAnswer(question: string) {
     return "I couldn’t find a clear answer to that in the letters and story on this site.\n\nTry asking about a person, a place, a year, or an event like Mother’s Day 1973 or 313 Jackson Avenue.";
   }
 
-  const intro =
-    topMatches.length === 1
-      ? "Here’s the closest reference I found in the archive:"
-      : "Here are the strongest references I found in the archive:";
+  const useSingleLead =
+    topMatches.length === 1 || topMatches[0].score >= (topMatches[1]?.score ?? 0) + 5;
+
+  const intro = useSingleLead
+    ? "The clearest answer I found in the archive is:"
+    : "Here are the strongest references I found in the archive:";
 
   const body = topMatches
-    .map(({ passage }) => `**${passage.source}**\n${summarizePassage(passage.text)}`)
+    .map(({ passage, snippet }, index) => {
+      const lead = useSingleLead && index === 1 ? "Supporting reference:\n\n" : "";
+      return `${lead}**${passage.source}**\n${snippet}`;
+    })
     .join("\n\n");
 
   return `${intro}\n\n${body}`;
